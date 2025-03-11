@@ -1,0 +1,20 @@
+{
+    "username": "john",
+    "email": "john@gmail.com",
+    "password": "12345678",
+    "name": "John Doe"
+}
+
+{
+    "name": "Premium Dog Food",
+    "price": 25.99,
+    "stock": 100,
+    "category": "Pet Supplies",
+    "description": "High-quality dog food with essential nutrients for a healthy diet."
+  }
+  
+
+
+  {
+  "productsId": "67c6c6ddba03bba4364c6dad"
+}
