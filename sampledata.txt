@@ -18,3 +18,14 @@
   {
   "productsId": "67c6c6ddba03bba4364c6dad"
 }
+
+
+  
+  
+{
+  "name": "admin",
+  "username": "admin",
+  "email": "admin@gmail.com",
+  "password": "admin123",
+  "role":"admin"
+}

@@ -6,7 +6,8 @@ import productModel from "../models/productModel.js";
 // =Add to Cart=
 
 export const addToCart = async (req, res) => {
-  const userId = req.params.id;
+  const userId = req.user._id;
+
   const { productsId, quantity } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(userId))
@@ -57,8 +58,8 @@ export const addToCart = async (req, res) => {
 // =Get Cart=
 
 export const getCart = async (req, res) => {
-    const userId = req.params.id;
-  
+  const userId = req.user._id;
+
     if (!mongoose.Types.ObjectId.isValid(userId))
       return res.status(400).json({ success: false, message: "Invalid user ID" });
   
@@ -76,7 +77,7 @@ export const getCart = async (req, res) => {
 // =Remove from Cart=
 
 export const removeFromCart = async (req, res) => {
-  const userId = req.params.id;
+  const userId = req.user._id;
   const { productsId } = req.body;
 
   if (
@@ -102,7 +103,7 @@ export const removeFromCart = async (req, res) => {
 // =Increment Quantity=
 
 export const incrementQuantity = async (req, res) => {
-  const userId = req.params.id;
+  const userId = req.user._id;
   const { productsId } = req.body;
 
   if (
@@ -134,7 +135,7 @@ export const incrementQuantity = async (req, res) => {
 // =Decrement Quantity=
 
 export const decrementQuantity = async (req, res) => {
-  const userId = req.params.id;
+  const userId = req.user._id;
   const { productsId } = req.body;
 
   if (
@@ -165,10 +166,10 @@ export const decrementQuantity = async (req, res) => {
     .json({ success: true, message: "Quantity decremented", data: cart });
 };
 
-//// Cart Total Price
+// Cart Total Price
 
 // export const getCartTotalPrice = async (req, res) => {
-//   const userId = req.params.id;
+//   const userId = req.user._id;
 
 //   if (!mongoose.Types.ObjectId.isValid(userId))
 //     return res.status(400).json({ success: false, message: "Invalid user ID" });

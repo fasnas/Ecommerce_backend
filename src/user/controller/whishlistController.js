@@ -5,7 +5,7 @@ import Wishlist from "../models/whishlistModel.js";
 
 // === Add to Wishlist ===
 export const addToWhishlist = async (req, res) => {
-  const userId = req.params.id;
+  const userId = req.user._id;
   const { productsId } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(userId))
@@ -56,7 +56,7 @@ export const addToWhishlist = async (req, res) => {
 
 // ===Get Wishlist =====
 export const getWhishlist = async (req, res) => {
-    const userId = req.params.id;
+   const userId = req.user._id;
   
     if (!mongoose.Types.ObjectId.isValid(userId))
       return res.status(400).json({ success: false, message: "Invalid User ID" });

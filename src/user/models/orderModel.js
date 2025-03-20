@@ -3,15 +3,15 @@ import mongoose from "mongoose";
 const orderSchema = new mongoose.Schema(
   {
     user: {
-      type: mongoose.Types.ObjectId,
-      ref: "User",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "users",
       required: true,
     },
     items: [
       {
         productId: {
-          type: mongoose.Types.ObjectId,
-          ref: "Product",
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Cart",
           required: true,
         },
         quantity: {
@@ -20,11 +20,34 @@ const orderSchema = new mongoose.Schema(
         },
       },
     ],
+    date: {
+      type: Date,
+      default: Date.now,
+      required: true
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    address: {
+      type: String,
+      required: true,
+    },
+
+    paymentMethode: {
+      type: String,
+      required: true,
+      enum: ['razorpay', 'card', 'paypal'],
+    },
+    total: {
+      type: Number,
+      required: true
+    }
   },
   {
     timestamps: true,
   }
 );
-const Order = mongoose.model("Order", orderSchema);
 
+const Order = mongoose.model("Orders", orderSchema);
 export default Order;

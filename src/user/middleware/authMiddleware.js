@@ -1,39 +1,36 @@
-import jwt from "jsonwebtoken";
+import { verifyToken } from "../../utils/jwt.js";
+import usermodel from "../models/usermodel.js";
 
-// =JWT Authentication Middleware=
-export const isAuthenticate = async (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({
-      success: false,
-      message: "Access denied. Token not provided or invalid format.",
-    });
-  }
-
-  const token = authHeader.split(" ")[1];
-
-  if (!token) {
-    return res.status(401).json({
-      success: false,
-      message: "Access denied. Token is missing.",
-    });
-  }
-
+//authenticate any user (Admin or Normal User)
+export const authenticate = async (req, res, next) => {
   try {
-    const validateToken = jwt.verify(token,process.env.JWT_SECRET);
+    const authHeader = req.headers.authorization;
 
-    if (!validateToken) {
-      return res.status(401).json({ success: false, message: "Invalid token" });
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ success: false, message: "Access token missing or invalid format" });
     }
 
-    req.user = validateToken;
+    const token = authHeader.split(" ")[1];
+    console.log("Token:", token);
 
-    next();
+    const decoded = verifyToken(token);
+    if (!decoded || !decoded.id) {
+      return res.status(401).json({ success: false, message: "Access token is invalid or expired" });
+    }
+
+    console.log("Decoded Token:", decoded);
+
+    const user = await usermodel.findById(decoded.id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    req.user = user;
+    next(); 
+
   } catch (err) {
-    return res.status(401).json({
-      success: false,
-      message: `Token verification failed: ${err.message}`,
-    });
+    console.error("Authentication Error:", err);
+    return res.status(500).json({ success: false, message: "Internal server error", error: err.message });
   }
 };
+

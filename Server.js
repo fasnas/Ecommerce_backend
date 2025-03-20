@@ -7,6 +7,9 @@ import cartRouter from "./src/user/routes/cartRouter.js";
 import whishlistRouter from "./src/user/routes/whishlistRouter.js";
 import orderRouter from "./src/user/routes/orderRouter.js";
 import dbconnect from "./src/config/dbConfig.js";
+import adminRouter from "./src/admin/routes/adminRouter.js";
+
+
 
 dotenv.config()
 const app=express()
@@ -28,6 +31,8 @@ app.use("/api/prod", productRouter)
 app.use("/api/cart", cartRouter)
 app.use("/api/wishlist", whishlistRouter)
 app.use("/api/order", orderRouter)
+
+app.use("/api/admin",adminRouter)
 
 app.listen(port,()=>{
 console.log("OK")
